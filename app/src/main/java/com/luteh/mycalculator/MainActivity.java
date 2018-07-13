@@ -94,8 +94,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void numberIsTapped(int tappedNumber){
+    private void numberIsTapped(int tappedNumber) {
         currentNumber = currentNumber + String.valueOf(tappedNumber);
         txtResults.setText(currentNumber);
+    }
+
+    private void operatorIsTapped(OPERATOR operatorTapped) {
+        if (currentOperator != null && currentNumber != "") {
+            stringNumberAtRight = currentNumber;
+            currentNumber = "";
+            switch (currentOperator) {
+                case PLUS:
+                    break;
+                case SUBTRACT:
+                    break;
+                case MULTIPLY:
+                    break;
+                case DIVIDE:
+                    break;
+                case EQUAL:
+                    break;
+            }
+        }
     }
 }
