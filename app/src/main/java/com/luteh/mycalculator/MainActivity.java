@@ -16,7 +16,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     // Instance Variables
 
-    private String currentNumber, stringNumberAtLeft, stringNumberAtRight;
+    private String currentNumber, stringNumberAtLeft, stringNumberAtRight, calculationsString;
     private OPERATOR currentOperator;
     private int calculationsResult;
 
@@ -27,6 +27,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         currentNumber = "";
         calculationsResult = 0;
+        calculationsString = "";
 
         txtCalculation = findViewById(R.id.txtCalculation);
         txtResults = findViewById(R.id.txtResults);
@@ -82,21 +83,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 numberIsTapped(9);
                 break;
             case R.id.btnPlus:
+                operatorIsTapped(OPERATOR.PLUS);
+                calculationsString += " + ";
                 break;
             case R.id.btnSubtract:
+                operatorIsTapped(OPERATOR.SUBTRACT);
+                calculationsString += " - ";
                 break;
             case R.id.btnMultiply:
+                operatorIsTapped(OPERATOR.MULTIPLY);
+                calculationsString += " * ";
                 break;
             case R.id.btnDivide:
+                operatorIsTapped(OPERATOR.DIVIDE);
+                calculationsString += " / ";
                 break;
             case R.id.btnEqual:
+                //operatorIsTapped(OPERATOR.EQUAL);
                 break;
         }
+        txtCalculation.setText(calculationsString);
     }
 
     private void numberIsTapped(int tappedNumber) {
         currentNumber = currentNumber + String.valueOf(tappedNumber);
         txtResults.setText(currentNumber);
+
+        calculationsString = currentNumber;
+        txtCalculation.setText(calculationsString);
     }
 
     private void operatorIsTapped(OPERATOR operatorTapped) {
@@ -105,16 +119,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
             currentNumber = "";
             switch (currentOperator) {
                 case PLUS:
+                    calculationsResult = Integer.parseInt(stringNumberAtLeft) + Integer.parseInt(stringNumberAtRight);
                     break;
                 case SUBTRACT:
+                    calculationsResult = Integer.parseInt(stringNumberAtLeft) - Integer.parseInt(stringNumberAtRight);
                     break;
                 case MULTIPLY:
+                    calculationsResult = Integer.parseInt(stringNumberAtLeft) * Integer.parseInt(stringNumberAtRight);
                     break;
                 case DIVIDE:
-                    break;
-                case EQUAL:
+                    calculationsResult = Integer.parseInt(stringNumberAtLeft) / Integer.parseInt(stringNumberAtRight);
                     break;
             }
+            stringNumberAtLeft = String.valueOf(calculationsResult);
+            txtResults.setText(stringNumberAtLeft);
+
+            calculationsString = stringNumberAtLeft;
+        } else {
+            stringNumberAtLeft = currentNumber;
+            currentNumber = "";
         }
+        currentOperator = operatorTapped;
     }
 }
