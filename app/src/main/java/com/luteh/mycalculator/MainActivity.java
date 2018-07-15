@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.btnSubtract).setOnClickListener(MainActivity.this);
         findViewById(R.id.btnDivide).setOnClickListener(MainActivity.this);
         findViewById(R.id.btnEqual).setOnClickListener(MainActivity.this);
+        findViewById(R.id.btnClear).setOnClickListener(MainActivity.this);
     }
 
     @Override
@@ -99,7 +100,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 calculationsString += " / ";
                 break;
             case R.id.btnEqual:
-                //operatorIsTapped(OPERATOR.EQUAL);
+                operatorIsTapped(OPERATOR.EQUAL);
+                break;
+            case R.id.btnClear:
+                clearTapped();
                 break;
         }
         txtCalculation.setText(calculationsString);
@@ -114,31 +118,43 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void operatorIsTapped(OPERATOR operatorTapped) {
-        if (currentOperator != null && currentNumber != "") {
-            stringNumberAtRight = currentNumber;
-            currentNumber = "";
-            switch (currentOperator) {
-                case PLUS:
-                    calculationsResult = Integer.parseInt(stringNumberAtLeft) + Integer.parseInt(stringNumberAtRight);
-                    break;
-                case SUBTRACT:
-                    calculationsResult = Integer.parseInt(stringNumberAtLeft) - Integer.parseInt(stringNumberAtRight);
-                    break;
-                case MULTIPLY:
-                    calculationsResult = Integer.parseInt(stringNumberAtLeft) * Integer.parseInt(stringNumberAtRight);
-                    break;
-                case DIVIDE:
-                    calculationsResult = Integer.parseInt(stringNumberAtLeft) / Integer.parseInt(stringNumberAtRight);
-                    break;
-            }
-            stringNumberAtLeft = String.valueOf(calculationsResult);
-            txtResults.setText(stringNumberAtLeft);
+        if (currentOperator != null) {
+            if (currentNumber != "") {
+                stringNumberAtRight = currentNumber;
+                currentNumber = "";
+                switch (currentOperator) {
+                    case PLUS:
+                        calculationsResult = Integer.parseInt(stringNumberAtLeft) + Integer.parseInt(stringNumberAtRight);
+                        break;
+                    case SUBTRACT:
+                        calculationsResult = Integer.parseInt(stringNumberAtLeft) - Integer.parseInt(stringNumberAtRight);
+                        break;
+                    case MULTIPLY:
+                        calculationsResult = Integer.parseInt(stringNumberAtLeft) * Integer.parseInt(stringNumberAtRight);
+                        break;
+                    case DIVIDE:
+                        calculationsResult = Integer.parseInt(stringNumberAtLeft) / Integer.parseInt(stringNumberAtRight);
+                        break;
+                }
+                stringNumberAtLeft = String.valueOf(calculationsResult);
+                txtResults.setText(stringNumberAtLeft);
 
-            calculationsString = stringNumberAtLeft;
+                calculationsString = stringNumberAtLeft;
+            }
         } else {
             stringNumberAtLeft = currentNumber;
             currentNumber = "";
         }
         currentOperator = operatorTapped;
+    }
+
+    private void clearTapped() {
+        stringNumberAtLeft = "";
+        stringNumberAtRight = "";
+        calculationsString = "0";
+        calculationsResult = 0;
+        currentNumber = "";
+        currentOperator = null;
+        txtResults.setText("0");
     }
 }
